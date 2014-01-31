@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The quoth blog.</title>
+  </head>
+
+  <body>
+    <h1>Welcome to the quoth blog.</h1>
+
+    <%= link_to 'New post', new_post_path %>
+
+    <% @posts.each do |post| %>
+      <h2><%= post.title %></h2>
+      <%= link_to 'View full post', post_path(post) %>
+      <div><%= post.body %></div>
+    <% end %>
+
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The quoth blog. | New post</title>
+</head>
+
+<body>
+  <h1>Write an awesome new post</h1>
+
+  <%= form_for @post do |f| %>
+
+	<% if @post.errors.any? %>
+	  <div>
+	    Well, here are your <%= pluralize(@post.errors.count, 'problem') %>:
+	  </div>
+	  <ul>
+	    <% @post.errors.full_messages.each do |msg| %>
+	    <li><%= msg %></li>
+		<% end %>
+	  </ul>
+	<% end %>
+
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+
+	<%= f.submit 'Post' %>
+  <% end %>
+
+<p><%= link_to 'Home', root_path %></p>
+</body>
+</html>
