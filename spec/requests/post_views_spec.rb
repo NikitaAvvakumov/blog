@@ -5,20 +5,22 @@ describe "Post views" do
   subject { page }
 
   describe 'index view / homepage' do
-    let!(:older_post) { Post.create(title: 'An older post', body: 'This is an older blog post.') }
-    let!(:newer_post) { Post.create(title: 'A newer post', body: 'This is a newer blog post.') }
+    let!(:older_post) { Post.create(title: 'An older post', body: 'This is an older blog post.---MORE---') }
+    let!(:newer_post) { Post.create(title: 'A newer post', body: 'This is a newer blog post.---MORE---More text here.') }
     before { visit root_path }
 
     it { should have_title('The quoth blog.') }
     it { should have_selector('h1', text:'Welcome to the quoth blog.') }
 
     it { should have_selector('h2', text: older_post.title) }
-    it { should have_content(older_post.body) }
+    it { should have_content('This is an older blog post.') }
     it { should have_selector('h2', text: newer_post.title) }
-    it { should have_content(newer_post.body) }
+    it { should have_content('This is a newer blog post.') }
+    it { should_not have_content('---MORE---') }
+    it { should_not have_content('More text here.') }
 
     it 'should display posts in reverse chronological order' do
-      page.body.index(newer_post.body).should < page.body.index(older_post.body)
+      page.body.index('This is a newer blog post.').should < page.body.index('This is an older blog post.')
     end
 
     describe 'links' do
@@ -37,12 +39,24 @@ describe "Post views" do
   end
 
   describe 'individual post views' do
-    let(:post) { Post.create(title: 'A new post', body: 'This is a new blog post') }
+    let(:post) { Post.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.') }
     before { visit post_path(post) }
 
     it { should have_title post.title }
-    it { should have_selector 'h1', text: post.title }
-    it { should have_content post.body }
+    it { should have_selector 'h2', text: post.title }
+    it { should have_content 'This is a new blog post.' }
+    it { should have_content 'More text here.' }
+    it { should_not have_content '---MORE---' }
+    it { should have_link 'Edit', href: edit_post_path(post) }
+    it { should have_link 'Delete' }
+
+    describe 'deleting the post' do
+      it 'should delete the post' do
+        expect { click_link 'Delete' }.to change(Post, :count).by(-1)
+        expect(page).to have_title(full_title(''))
+        expect(page).to have_selector 'div.alert.alert-success', text: 'Post deleted.'
+      end
+    end
   end
 
   describe 'new post view' do
@@ -72,6 +86,7 @@ describe "Post views" do
         describe 'it should redirect to the new post page' do
           before { click_button 'Create post' }
           it { should have_title(full_title('A new post')) }
+          it { should have_selector 'div.alert.alert-success', text: 'Post created.' }
         end
 
       end

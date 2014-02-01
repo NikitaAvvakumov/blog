@@ -11,7 +11,6 @@
         <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %></small></p>
         <%= truncate(post.body, length: 0, separator: '---MORE---', escape: false) { link_to 'Continue...', post_path(post) } %>
       </div>
-    <%#= render 'post', post: post %>
 	<hr>
   <% end %>
 </div>

@@ -13,6 +13,11 @@ describe "Layouts" do
       expect(page).to have_title(full_title('New post'))
       visit post_path(post)
       expect(page).to have_title(full_title(post.title))
+      click_link 'Edit'
+      expect(page).to have_content 'Update post'
+      visit post_path(post)
+      click_link 'Delete'
+      expect(page).to have_title(full_title(' '))
     end
   end
 end

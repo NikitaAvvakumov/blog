@@ -2,5 +2,5 @@
 
 <%= render 'post', post: @post %>
 <%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
-
+<%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Delete post?' } %> &nbsp;&nbsp;
 <%= link_to 'Home', root_path %>
