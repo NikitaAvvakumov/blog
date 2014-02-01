@@ -24,7 +24,7 @@ describe "Post views" do
     describe 'links' do
 
       describe 'post links should link to correct post' do
-        before { first(:link, 'View full post').click }
+        before { click_link newer_post.title }
 
         it { should have_title newer_post.title }
       end
@@ -55,7 +55,7 @@ describe "Post views" do
 
       describe 'with incomplete information' do
         it 'should not create a post' do
-          expect { click_button 'Post' }.not_to change(Post, :count)
+          expect { click_button 'Create post' }.not_to change(Post, :count)
         end
       end
 
@@ -66,14 +66,59 @@ describe "Post views" do
         end
 
         it 'should create a new post' do
-          expect { click_button 'Post' }.to change(Post, :count).by(1)
+          expect { click_button 'Create post' }.to change(Post, :count).by(1)
         end
 
         describe 'it should redirect to the new post page' do
-          before { click_button 'Post' }
+          before { click_button 'Create post' }
           it { should have_title(full_title('A new post')) }
         end
 
+      end
+    end
+  end
+
+  describe 'edit post view' do
+    let(:post) { Post.create(title: 'A new post', body: 'This is a new blog post') }
+    before { visit edit_post_path(post) }
+
+    it { should have_title post.title }
+    it 'should have the post title in text input' do
+      expect(find_field('post_title').value).to eq post.title
+    end
+    it { should have_selector 'textarea', text: post.body }
+
+    describe 'updating the post' do
+      describe 'with incomplete information' do
+
+        context 'when title is missing' do
+          before do
+            fill_in 'Title', with: ''
+            click_button 'Update post'
+          end
+          it { should have_content 'problem' }
+        end
+
+        context 'when body is missing' do
+          before do
+            fill_in 'Body', with: ''
+            click_button 'Update post'
+          end
+
+          it { should have_selector 'div.alert.alert-warning' }
+        end
+      end
+
+      describe 'with complete information' do
+        before do
+          fill_in 'Title', with: 'A new title'
+          fill_in 'Body', with: 'New body text.'
+          click_button 'Update post'
+        end
+
+        it { should have_title(full_title('A new title')) }
+        it { should have_content 'New body text.' }
+        it { should have_selector 'div.alert.alert-success', text: 'The post was updated.'}
       end
     end
   end

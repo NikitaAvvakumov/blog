@@ -4,4 +4,6 @@
 <p><small>Posted on <%= @post.created_at.strftime("%d %B %Y") %></small></p>
 <div class="post"><%= @post.body.html_safe %></div>
 
+<%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
+
 <%= link_to 'Home', root_path %>
