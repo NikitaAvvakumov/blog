@@ -1,3 +1,29 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bootstrap";
+
+body {
+  padding-top: 70px;
+}
+
+.post p:first-child {
+  @extend .lead;
+}
+
+.navbar-brand, .quoth-typography {
+  font-family: 'PT Mono', 'Menlo', monospace;
+  font-weight: bold;
+}
+
+.navbar-brand {
+  font-size: 1.4em;
+}
+
+h2 a, .quoth-typography {
+  color: $gray-dark;
+  &:hover {
+    text-decoration: none;
+  }
+}

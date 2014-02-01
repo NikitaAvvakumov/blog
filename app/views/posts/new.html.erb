@@ -1,34 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>The quoth blog. | New post</title>
-</head>
+<% provide(:title, 'New post') %>
 
-<body>
-  <h1>Write an awesome new post</h1>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+<h1 class="text-center">Write an awesome new post</h1>
 
-  <%= form_for @post do |f| %>
+<%= form_for @post do |f| %>
 
-	<% if @post.errors.any? %>
-	  <div>
-	    Well, here are your <%= pluralize(@post.errors.count, 'problem') %>:
-	  </div>
-	  <ul>
-	    <% @post.errors.full_messages.each do |msg| %>
-	    <li><%= msg %></li>
-		<% end %>
-	  </ul>
-	<% end %>
+  <% if @post.errors.any? %>
+    <div>
+      Well, here are your <%= pluralize(@post.errors.count, 'problem') %>:
+    </div>
 
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-
-	<%= f.submit 'Post' %>
+    <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+	  <% end %>
+    </ul>
   <% end %>
 
-<p><%= link_to 'Home', root_path %></p>
-</body>
-</html>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+
+<div class="form-group">
+  <%= f.label :body %>
+  <%= f.text_area :body, rows: '20', class: 'form-control' %>
+</div>
+
+<%= f.submit 'Create post', class: 'btn btn-info' %>
+<% end %>
+
+<p><br /><%= link_to 'Home', root_path %></p>
+</div>
+</div>

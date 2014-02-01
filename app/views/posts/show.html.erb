@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>The quoth blog. <%= @post.title %></title>
-</head>
+<% provide(:title, @post.title) %>
 
-<body>
-  <h1><%= @post.title %></h1>
-  <p><small>Posted on <%= @post.created_at.strftime("%d %B %Y") %></small></p>
-  <div><%= @post.body %></div>
+<h1><%= @post.title %></h1>
+<p><small>Posted on <%= @post.created_at.strftime("%d %B %Y") %></small></p>
+<div class="post"><%= @post.body.html_safe %></div>
 
-  <%= link_to 'Home', root_path %>
-</body>
-</html>
+<%= link_to 'Home', root_path %>

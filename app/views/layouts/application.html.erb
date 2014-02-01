@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blog2</title>
+  <title><%= full_title(yield(:title)) %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <%= render 'layouts/ie9shim' %>
 </head>
 <body>
 
-<%= yield %>
+<%= render 'layouts/header' %>
+
+<div class="container">
+
+	  <%= yield %>
+
+</div>
+
+<%= render 'layouts/footer' %>
 
 </body>
 </html>

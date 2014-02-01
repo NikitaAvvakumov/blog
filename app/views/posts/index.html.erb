@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>The quoth blog.</title>
-  </head>
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+  <h1 class="text-center">Welcome to the
+    <%= link_to 'quoth', "#", class: 'quoth-typography' %> blog.</h1>
 
-  <body>
-    <h1>Welcome to the quoth blog.</h1>
+  <%= link_to 'New post', new_post_path, class: 'btn btn-info' %>
 
-    <%= link_to 'New post', new_post_path %>
-
-    <% @posts.each do |post| %>
-      <h2><%= post.title %></h2>
-      <%= link_to 'View full post', post_path(post) %>
-      <div><%= post.body %></div>
-    <% end %>
-
-  </body>
-</html>
+  <% @posts.each do |post| %>
+    <h2 class="text-center"><%= link_to post.title, post_path(post) %></h2>
+    <%#= link_to 'View full post', post_path(post) %>
+    <div class="post"><%= post.body.html_safe %></div>
+  <% end %>
+</div>
+</div>

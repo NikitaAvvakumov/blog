@@ -69,6 +69,11 @@ describe "Post views" do
           expect { click_button 'Post' }.to change(Post, :count).by(1)
         end
 
+        describe 'it should redirect to the new post page' do
+          before { click_button 'Post' }
+          it { should have_title(full_title('A new post')) }
+        end
+
       end
     end
   end
