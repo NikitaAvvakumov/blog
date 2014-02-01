@@ -7,10 +7,22 @@
 body {
   padding-top: 70px;
   padding-bottom: 70px;
+  font-size: 16px;
 }
 
-.post p:first-child {
+.post p:nth-child(3) {
   @extend .lead;
+  padding-top: 15px;
+}
+
+.post {
+  padding-bottom: 15px;
+}
+
+.date {
+  text-align: center;
+  font-style: italic;
+  color: $gray-light;
 }
 
 .navbar-brand, .quoth-typography {
@@ -27,4 +39,15 @@ h2 a, .quoth-typography {
   &:hover {
     text-decoration: none;
   }
+}
+
+/* post content */
+.float-right {
+  float: right;
+  margin-left: 10px;
+}
+
+.float-left {
+  float: left;
+  margin-right: 10px;
 }

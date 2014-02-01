@@ -6,9 +6,13 @@
   <%= link_to 'New post', new_post_path, class: 'btn btn-info' %>
 
   <% @posts.each do |post| %>
-    <h2 class="text-center"><%= link_to post.title, post_path(post) %></h2>
-    <%#= link_to 'View full post', post_path(post) %>
-    <div class="post"><%= post.body.html_safe %></div>
+      <div class="post">
+        <h2 class="text-center"><%= link_to post.title.html_safe, post_path(post) %></h2>
+        <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %></small></p>
+        <%= truncate(post.body, length: 0, separator: '---MORE---', escape: false) { link_to 'Continue...', post_path(post) } %>
+      </div>
+    <%#= render 'post', post: post %>
+	<hr>
   <% end %>
 </div>
 </div>
