@@ -1,0 +1,3 @@
+<% provide(:title, "Edit #{@user.name}") %>
+
+<%= render 'user_form', user: @user, heading_text: "Edit info for #{@user.name}", button_text: 'Update info' %>

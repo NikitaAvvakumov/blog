@@ -1,8 +1,8 @@
-<% if @post.errors.any? %>
+<% if object.errors.any? %>
   <div class="alert alert-warning">
-    <p>The post has <%= pluralize(@post.errors.count, 'problem') %></p>
+    <p>This form has <%= pluralize(object.errors.count, 'problem') %></p>
     <ul>
-      <% @post.errors.full_messages.each do |msg| %>
+      <% object.errors.full_messages.each do |msg| %>
 	    <li><%= msg %></li>
 	  <% end %>
     </ul>

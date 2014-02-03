@@ -1,0 +1,60 @@
+@import "bootstrap";
+
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+  font-size: 16px;
+}
+
+/* typography */
+.navbar-brand, .quoth-typography {
+  font-family: 'PT Mono', 'Menlo', monospace;
+  font-weight: bold;
+}
+
+.navbar-brand {
+  font-size: 1.4em;
+}
+
+h2 a, .quoth-typography {
+  color: $gray-dark;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.date {
+  text-align: center;
+  font-style: italic;
+  color: $gray-light;
+}
+
+/* post content */
+.post p:nth-child(3) {
+  @extend .lead;
+  padding-top: 15px;
+}
+
+.post {
+  padding-bottom: 15px;
+}
+
+.float-right {
+  float: right;
+  margin-left: 10px;
+}
+
+.float-left {
+  float: left;
+  margin-right: 10px;
+}
+
+/* miscellaneous */
+a.glyphicon:hover {
+  text-decoration: none;
+}
+
+/* forms */
+.field_with_errors {
+  @extend .has-error;
+}
