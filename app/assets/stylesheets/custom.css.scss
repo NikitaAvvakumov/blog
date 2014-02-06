@@ -54,6 +54,13 @@ a.glyphicon:hover {
   text-decoration: none;
 }
 
+.debug-dump {
+  float: left;
+  clear: both;
+  width: 80%;
+  margin-top: 45px;
+}
+
 /* forms */
 .field_with_errors {
   @extend .has-error;
