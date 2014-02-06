@@ -88,11 +88,11 @@ describe "User views" do
           click_button 'Update info'
         end
 
-        describe 'it should user page with updated info and success flash' do
-          it { should have_title(full_title('Des')) }
-          it { should have_content 'Des' }
-          it { should have_content 'Des is the unending source of energy in the quoth offices.' }
-          it { should have_selector 'div.alert.alert-success', text: 'Blogger info updated.' }
+        it 'should show user page with updated info and success flash' do
+          expect(page).to have_title(full_title('Des'))
+          expect(page).to have_content 'Des'
+          expect(page).to have_content 'Des is the unending source of energy in the quoth offices.'
+          expect(page).to have_selector 'div.alert.alert-success', text: 'Blogger info updated.'
         end
       end
 
@@ -103,9 +103,9 @@ describe "User views" do
           click_button 'Update info'
         end
 
-        describe 'it should re-display edit page with a warning flash' do
-          it { should have_title 'Edit Nik' }
-          it { should have_content 'problem' }
+        it 'should re-display edit page with a warning flash' do
+          expect(page).to have_title 'Edit Nik'
+          expect(page).to have_content 'problem'
         end
       end
     end
