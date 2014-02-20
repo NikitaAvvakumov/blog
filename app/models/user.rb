@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, length: { minimum: 8 }
 
+  default_scope -> { order('id ASC') }
+
   has_many :posts
 
   before_save :downcase_email
