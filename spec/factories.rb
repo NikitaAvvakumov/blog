@@ -10,5 +10,6 @@ FactoryGirl.define do
   factory :post do
     title 'A brand new post'
     body 'Lorem ipsum dolor sit amet'
+    user
   end
 end

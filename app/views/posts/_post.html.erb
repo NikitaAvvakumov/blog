@@ -1,5 +1,5 @@
 <div class="post">
   <h2 class="text-center"><%= post.title.html_safe %></h2>
-  <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %></small></p>
+  <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %> by <%= link_to post.user.name, user_path(post.user) %></small></p>
   <%= post.body.gsub('---MORE---', '').html_safe %>
 </div>

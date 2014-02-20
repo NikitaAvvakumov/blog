@@ -43,6 +43,11 @@ h2 a, .quoth-typography {
   list-style: none;
 }
 
+.bio {
+  @extend .lead;
+  padding-bottom: 20px;
+}
+
 /* post content */
 .post p:nth-child(3) {
   @extend .lead;

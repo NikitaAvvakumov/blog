@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, length: { minimum: 8 }
 
+  has_many :posts
+
   before_save :downcase_email
   before_create :create_remember_token
 
