@@ -34,6 +34,7 @@ describe "User views" do
         before do
           fill_in 'Name', with: 'New Blogger'
           fill_in 'Email', with: 'blogger@quoth.com'
+          fill_in 'Title', with: 'something'
           fill_in 'Password', with: 'something'
           fill_in 'Confirm password', with: 'something'
           fill_in 'Bio', with: 'An infinitely fascinating life story.'
@@ -55,7 +56,7 @@ describe "User views" do
 
   describe 'show user view' do
     let(:user) { User.create(name: 'Nik', email: 'nik@quoth.com', bio: 'Nik is the back-end developer at quoth.',
-                             password: 'something', password_confirmation: 'something') }
+                             title: 'back-end', password: 'something', password_confirmation: 'something') }
     before { visit user_path(user) }
 
     it { should have_title(full_title(user.name)) }
@@ -64,6 +65,7 @@ describe "User views" do
 
     describe 'when not signed in' do
       it { should_not have_link "#{user.name}_edit" }
+      it { should_not have_link 'new_post' }
     end
 
     describe 'when signed in' do
@@ -73,12 +75,13 @@ describe "User views" do
       end
 
       it { should have_link "#{user.name}_edit" }
+      it { should have_link 'new_post' }
     end
   end
 
   describe 'edit user view' do
     let(:user) { User.create(name: 'Nik', email: 'nik@quoth.com', bio: 'Nik is the back-end developer at quoth.',
-                             password: 'something', password_confirmation: 'something') }
+                             title: 'something', password: 'something', password_confirmation: 'something') }
     before do
       sign_in user
       visit edit_user_path(user)
@@ -138,9 +141,9 @@ describe "User views" do
 
   describe 'user index view' do
     let!(:user_one) { User.create(name: 'Nik', email: 'nik@quoth.com', bio: 'Nik is the back-end developer at quoth.',
-                                  password: 'something', password_confirmation: 'something') }
+                                  title: 'something', password: 'something', password_confirmation: 'something') }
     let!(:user_two) { User.create(name: 'Mari', email: 'mari@quoth.com', bio: 'Mari is the front-end developer at quoth.',
-                                  password: 'something', password_confirmation: 'something') }
+                                  title: 'something', password: 'something', password_confirmation: 'something') }
     before { visit users_path }
 
     it { should have_title(full_title('Bloggers')) }
@@ -149,6 +152,7 @@ describe "User views" do
     it { should have_selector 'h2', text: user_two.name }
 
     describe 'when viewed by a visitor' do
+      it { should_not have_link 'Add a new user', href: new_user_path }
       it { should_not have_link "#{user_one.name}_delete", href: user_path(user_one) }
       it { should_not have_link "#{user_one.name}_edit", href: edit_user_path(user_one) }
       it { should_not have_link "#{user_two.name}_delete", href: user_path(user_two) }
@@ -161,6 +165,7 @@ describe "User views" do
         visit users_path
       end
 
+      it { should have_link 'Add a new user', new_user_path }
       it { should have_link "#{user_one.name}_delete", href: user_path(user_one) }
       it { should have_link "#{user_one.name}_edit", href: edit_user_path(user_one) }
       it { should have_link "#{user_two.name}_delete", href: user_path(user_two) }

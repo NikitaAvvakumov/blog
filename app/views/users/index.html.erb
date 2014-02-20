@@ -1,18 +1,32 @@
 <% provide(:title, 'Bloggers') %>
 
-<h1>The quoth bloggers:</h1>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+	<h1 class="text-center">The <span class="quoth-typography">quoth</span> bloggers:</h1>
 
-<ul class="blogger-list">
-<% @users.each do |user| %>
-	<li><h2><%= user.name %></h2></li>
-	<%= link_to 'View blogger page', user_path(user) %> &nbsp;&nbsp;
-	  <% if signed_in? %>
-		<%= link_to '', edit_user_path(user), class: 'glyphicon glyphicon-pencil', id: "#{user.name}_edit",
-					title: 'Edit blogger info', rel: 'tooltip' %>
-	    &nbsp;
-		<%= link_to '', user, method: :delete, data: { confirm: "Delete #{user.name} from the system?" },
-	                class: 'glyphicon glyphicon-trash text-danger', id: "#{user.name}_delete",
-	                title: 'Delete blogger info', rel: 'tooltip' %>
-	  <% end %>
-<% end %>
-</ul>
+	<% if signed_in? %>
+	    <p><%= link_to 'Add a new user', new_user_path, class: 'btn btn-info' %></p>
+	<% end %>
+
+	<ul class="blogger-ul">
+	<% @users.each do |user| %>
+		<li class="blogger-li">
+		  <h2>
+		  <%= gravatar_for user %>
+		  <%= user.name %>
+		  </h2>
+		  <p><%= user.bio.html_safe %></p>
+		<%= link_to 'View blogger page', user_path(user) %> &nbsp;&nbsp;
+		  <% if signed_in? %>
+			<%= link_to '', edit_user_path(user), class: 'glyphicon glyphicon-pencil', id: "#{user.name}_edit",
+						title: 'Edit blogger info', rel: 'tooltip' %>
+		    &nbsp;
+			<%= link_to '', user, method: :delete, data: { confirm: "Delete #{user.name} from the system?" },
+		                class: 'glyphicon glyphicon-trash text-danger', id: "#{user.name}_delete",
+		                title: 'Delete blogger info', rel: 'tooltip' %>
+		  <% end %>
+		</li>
+	<% end %>
+	</ul>
+</div>
+</div>

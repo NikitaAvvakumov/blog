@@ -8,14 +8,14 @@
 	    <% if signed_in? %>
           <small><%= link_to '', edit_user_path(@user), class: 'glyphicon glyphicon-pencil', id: "#{@user.name}_edit",
                       title: 'Edit my info', rel: 'tooltip' %></small>
+		  <small><%= link_to '', new_post_path, class: 'glyphicon glyphicon-file', id: "new_post",
+		                     title: 'Create a new post', rel: 'tooltip' %></small>
 		<% end %>
 	  </h1>
       <p><%= mail_to @user.email %></p>
       <p class="bio"><%= @user.bio.html_safe %></p>
-
-      <h2 class="text-center">Articles written by <%= @user.name %></h2>
-
       <hr />
+
       <div class="main-separator"></div>
       </div>
 

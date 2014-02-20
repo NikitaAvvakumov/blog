@@ -3,13 +3,14 @@ require 'spec_helper'
 describe User do
 
   before { @user = User.new(name: 'Nik', email: 'nik@quoth.com', bio: 'Nik is the back-end developer at quoth.',
-                            password: 'something', password_confirmation: 'something') }
+                            title: 'back-end', password: 'something', password_confirmation: 'something') }
 
   subject { @user }
 
   it { should respond_to :name }
   it { should respond_to :email }
   it { should respond_to :bio }
+  it { should respond_to :title }
   it { should respond_to :password_digest }
   it { should respond_to :password }
   it { should respond_to :password_confirmation }
@@ -37,6 +38,11 @@ describe User do
 
     context 'when bio is missing' do
       before { @user.bio = '' }
+      it { should_not be_valid }
+    end
+
+    context 'when title is missing' do
+      before { @user.title = '' }
       it { should_not be_valid }
     end
 
@@ -72,15 +78,19 @@ describe User do
     end
 
     context 'when name is already taken' do
-      before { duplicate_name_user = User.create(name: @user.name.upcase, email: 'user@quoth.com', bio: 'Blah blah blah',
-                                                 password: 'something', password_confirmation: 'something') }
+      before do
+        duplicate_name_user = User.create(name: @user.name.upcase, email: 'user@quoth.com', bio: 'Blah blah blah',
+                                          title: 'something', password: 'something', password_confirmation: 'something')
+      end
 
       it { should_not be_valid }
     end
 
     context 'when email is already taken' do
-      before { duplicate_email_user = User.create(name: 'A new name', email: @user.email.upcase, bio: 'Blah blah blah',
-                                                  password: 'something', password_confirmation: 'something') }
+      before do
+        duplicate_email_user = User.create(name: 'A new name', email: @user.email.upcase, bio: 'Blah blah blah',
+                                           title: 'something', password: 'something', password_confirmation: 'something')
+      end
 
       it { should_not be_valid }
     end

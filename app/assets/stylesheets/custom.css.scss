@@ -39,13 +39,32 @@ h2 a, .quoth-typography {
 }
 
 /* user views */
-.blogger-list {
+.blogger-ul {
   list-style: none;
+}
+
+.blogger-li {
+  padding: 10px 0px;
+}
+
+.bloggers-intro {
+  text-align: center;
 }
 
 .bio {
   @extend .lead;
   padding-bottom: 20px;
+}
+
+.gravatar {
+  float: left;
+  margin: 0px 10px;
+  /*margin-right: 40px; */
+}
+
+.user-blurb {
+  display: inline-block;
+  padding: 0px 20px;
 }
 
 /* post content */
