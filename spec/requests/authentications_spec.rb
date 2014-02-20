@@ -31,11 +31,7 @@ describe "Authentications" do
 
       describe 'with complete info' do
         let(:user) { FactoryGirl.create(:user) }
-        before do
-          fill_in 'Email', with: user.email
-          fill_in 'Password', with: user.password
-          click_button 'Sign in'
-        end
+        before { sign_in user } # defined in spec/support/utilities.rb
 
         it { should have_title(full_title(user.name)) }
         it { should have_content user.bio }
@@ -52,6 +48,52 @@ describe "Authentications" do
           it { should_not have_link 'Sign out' }
         end
       end
+    end
+  end
+
+  describe 'authorization' do
+
+    describe 'in the Users controller' do
+      let(:user) { FactoryGirl.create(:user) }
+
+      describe 'attempting to access the new user page while not signed in' do
+        before { visit new_user_path }
+        it { should have_title 'Sign in' }
+      end
+
+      describe 'attempting to issue a direct post request while not signed in' do
+        before { post users_path }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+      describe 'attempting to access the user edit page while not signed in' do
+        before { visit edit_user_path(user) }
+        it { should have_title 'Sign in' }
+      end
+
+      describe 'attempting to issue a direct patch request while not signed in' do
+        before { patch user_path(user) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+=begin
+      describe 'as wrong user' do
+        let(:user) { FactoryGirl.create(:user) }
+        let(:wrong_user) { FactoryGirl.create(:user, name: 'Wrong User', email: 'wrong@example.com') }
+        before { sign_in user, no_capybara: true }
+
+        describe 'attempting to edit another user info by issuing a direct get request' do
+          before { get edit_user_path(wrong_user) }
+          specify { expect(response.body).not_to match(full_title('Edit')) }
+          specify { expect(response).to redirect_to root_url }
+        end
+
+        describe 'attempting to update another user info by issuing a direct patch request' do
+          before { patch user_path(wrong_user) }
+          specify { expect(response).to redirect_to root_url }
+        end
+      end
+=end
     end
   end
 end

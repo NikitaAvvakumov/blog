@@ -1,9 +1,15 @@
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
-  <h1 class="text-center">Welcome to the
+  <h1 class="welcome text-center">Welcome to the
     <%= link_to 'quoth', "#", class: 'quoth-typography' %> blog.</h1>
 
-  <%= link_to 'New post', new_post_path, class: 'btn btn-info' %>
+  <hr />
+
+  <div class="main-separator">
+  <% if signed_in? %>
+	  <%= link_to 'Create a new post', new_post_path, class: 'btn btn-info' %>
+  <% end %>
+  </div>
 
   <% @posts.each do |post| %>
       <div class="post">

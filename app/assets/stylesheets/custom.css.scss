@@ -6,6 +6,15 @@ body {
   font-size: 16px;
 }
 
+.welcome {
+  padding-bottom: 20px;
+}
+
+.main-separator {
+  padding-bottom: 25px;
+  @extend .text-center;
+}
+
 /* typography */
 .navbar-brand, .quoth-typography {
   font-family: 'PT Mono', 'Menlo', monospace;
@@ -27,6 +36,11 @@ h2 a, .quoth-typography {
   text-align: center;
   font-style: italic;
   color: $gray-light;
+}
+
+/* user views */
+.blogger-list {
+  list-style: none;
 }
 
 /* post content */

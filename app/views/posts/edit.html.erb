@@ -18,7 +18,9 @@
     <%= f.text_area :body, rows: '20', class: 'form-control' %>
   </div>
 
-  <%= f.submit 'Update post', class: 'btn btn-info' %>
+  <%= f.submit 'Update post', class: 'btn btn-success' %>
+  <%= link_to 'Abandon changes', @post, { class: 'btn btn-warning', style: 'float: right' } %>
 <% end %>
+
 </div>
 </div>

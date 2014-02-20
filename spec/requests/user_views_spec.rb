@@ -5,7 +5,11 @@ describe "User views" do
   subject { page }
 
   describe 'new user view' do
-    before { visit new_user_path }
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      visit new_user_path
+    end
 
     it { should have_title 'Create a new blogger' }
     it { should have_content 'Create a new blogger' }
@@ -57,12 +61,28 @@ describe "User views" do
     it { should have_title(full_title(user.name)) }
     it { should have_content user.name }
     it { should have_content user.bio }
+
+    describe 'when not signed in' do
+      it { should_not have_link "#{user.name}_edit" }
+    end
+
+    describe 'when signed in' do
+      before do
+        sign_in user
+        visit user_path(user)
+      end
+
+      it { should have_link "#{user.name}_edit" }
+    end
   end
 
   describe 'edit user view' do
     let(:user) { User.create(name: 'Nik', email: 'nik@quoth.com', bio: 'Nik is the back-end developer at quoth.',
                              password: 'something', password_confirmation: 'something') }
-    before { visit edit_user_path(user) }
+    before do
+      sign_in user
+      visit edit_user_path(user)
+    end
 
     it { should have_title "Edit #{user.name}" }
     it { should have_content "Edit info for #{user.name}" }
@@ -79,10 +99,13 @@ describe "User views" do
     describe 'editing user info' do
 
       describe 'with complete info' do
+        let(:new_name) { 'Des' }
+        let(:new_email) { 'des@quoth.com' }
+        let(:new_bio) { 'Des is the unending source of energy in the quoth offices.' }
         before do
-          fill_in 'Name', with: 'Des'
-          fill_in 'Email', with: 'des@quoth.com'
-          fill_in 'Bio', with: 'Des is the unending source of energy in the quoth offices.'
+          fill_in 'Name', with: new_name
+          fill_in 'Email', with: new_email
+          fill_in 'Bio', with: new_bio
           fill_in 'Password', with: user.password
           fill_in 'Confirm password', with: user.password
           click_button 'Update info'
@@ -90,10 +113,11 @@ describe "User views" do
 
         it 'should show user page with updated info and success flash' do
           expect(page).to have_title(full_title('Des'))
-          expect(page).to have_content 'Des'
-          expect(page).to have_content 'Des is the unending source of energy in the quoth offices.'
           expect(page).to have_selector 'div.alert.alert-success', text: 'Blogger info updated.'
         end
+        specify { expect(user.reload.name).to eq new_name }
+        specify { expect(user.reload.email).to eq new_email }
+        specify { expect(user.reload.bio).to eq new_bio }
       end
 
       describe 'with incomplete info' do
@@ -120,25 +144,40 @@ describe "User views" do
     before { visit users_path }
 
     it { should have_title(full_title('Bloggers')) }
-    it { should have_content 'Current authorized bloggers' }
+    it { should have_content 'The quoth bloggers:' }
     it { should have_selector 'h2', text: user_one.name }
-    it { should have_link "#{user_one.name}_delete", href: user_path(user_one) }
-    it { should have_link "#{user_one.name}_edit", href: edit_user_path(user_one) }
     it { should have_selector 'h2', text: user_two.name }
-    it { should have_link "#{user_two.name}_delete", href: user_path(user_two) }
-    it { should have_link "#{user_two.name}_edit", href: edit_user_path(user_two) }
 
-    describe 'deleting users' do
+    describe 'when viewed by a visitor' do
+      it { should_not have_link "#{user_one.name}_delete", href: user_path(user_one) }
+      it { should_not have_link "#{user_one.name}_edit", href: edit_user_path(user_one) }
+      it { should_not have_link "#{user_two.name}_delete", href: user_path(user_two) }
+      it { should_not have_link "#{user_two.name}_edit", href: edit_user_path(user_two) }
+    end
 
-      it 'should delete user'do
-        expect { click_link("#{user_one.name}_delete") }.to change(User, :count).by(-1)
+    describe 'when viewed by a blogger' do
+      before do
+        sign_in user_one
+        visit users_path
       end
 
-      describe 'it should show index view with flash confirmation' do
-        before { click_link("#{user_one.name}_delete") }
+      it { should have_link "#{user_one.name}_delete", href: user_path(user_one) }
+      it { should have_link "#{user_one.name}_edit", href: edit_user_path(user_one) }
+      it { should have_link "#{user_two.name}_delete", href: user_path(user_two) }
+      it { should have_link "#{user_two.name}_edit", href: edit_user_path(user_two) }
 
-        it { should have_title(full_title('Bloggers')) }
-        it { should have_selector 'div.alert.alert-success', text: 'Blogger has been deleted.' }
+      describe 'deleting users' do
+
+        it 'should delete user'do
+          expect { click_link("#{user_one.name}_delete") }.to change(User, :count).by(-1)
+        end
+
+        describe 'it should show index view with flash confirmation' do
+          before { click_link("#{user_one.name}_delete") }
+
+          it { should have_title(full_title('Bloggers')) }
+          it { should have_selector 'div.alert.alert-success', text: 'Blogger has been deleted.' }
+        end
       end
     end
   end

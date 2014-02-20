@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+  before_action :signed_in_user, except: [:index, :show]
+  # Optional before filter to ensure that only owners can modify their profiles and posts
+  #before_action :correct_user, only: [:edit, :update]
+
   def new
     @user = User.new
   end
@@ -50,7 +55,19 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation)
-  end
+    def user_params
+      params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation)
+    end
+
+    def signed_in_user
+      unless signed_in?
+        flash[:warning] = 'Please sign in.'
+        redirect_to signin_url
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to root_url unless current_user?(@user)
+    end
 end
