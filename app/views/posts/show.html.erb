@@ -1,12 +1,16 @@
 <% provide(:title, @post.title) %>
 
-<%= render 'post', post: @post %>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<%= render 'post', post: @post %>
 
-<hr />
+		<hr />
 
-<% if signed_in? %>
-	<%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
-	<%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Delete post?' } %> &nbsp;&nbsp;
-<% end %>
+		<% if signed_in? %>
+			<%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
+			<%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Delete post?' } %> &nbsp;&nbsp;
+		<% end %>
 
-<%= link_to 'Home', root_path %>
+		<%= link_to 'Home', root_path %>
+	</div>
+</div>
