@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   default_scope -> { order('id ASC') }
 
   has_many :posts
+  has_attached_file :avatar, styles: { medium: '300x300', thumb: '100x100' }, default_url: 'missing1.png'
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+  #validates_attachment_file_name :avatar, matches: [/png\Z/, /jpe?g\Z/]
 
   before_save :downcase_email
   before_create :create_remember_token

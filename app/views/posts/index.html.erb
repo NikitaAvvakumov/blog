@@ -6,29 +6,30 @@
   <hr />
 
   <div class="bloggers-intro">
-	  <% User.all.each do |user| %>
-		  <div class="user-blurb">
-			  <%= link_to gravatar_for(user), user_path(user) %>
-			  <p class="text-center"><%= link_to user.name, user_path(user) %></p>
-			  <p class="text-center"><small><%= user.title %></small></p>
-		  </div>
-	  <% end %>
+	<% User.all.each do |user| %>
+	  <div class="user-blurb">
+		<%#= link_to gravatar_for(user), user_path(user) %>
+	    <%= link_to (image_tag user.avatar.url(:thumb), class: 'img-circle avatar'), user_path(user) %>
+		<p class="text-center"><%= link_to user.name, user_path(user) %></p>
+		<p class="text-center"><small><%= user.title %></small></p>
+	  </div>
+	<% end %>
     <p><%= link_to 'Meet the team', users_path %></p>
   </div>
 
   <div class="main-separator">
   <% if signed_in? %>
-	  <%= link_to 'Create a new post', new_post_path, class: 'btn btn-default' %>
+	<%= link_to 'Create a new post', new_post_path, class: 'btn btn-default' %>
   <% end %>
   <hr />
   </div>
 
   <% @posts.each do |post| %>
-      <div class="post">
-        <h2 class="text-center"><%= link_to post.title.html_safe, post_path(post) %></h2>
-        <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %> by <%= link_to post.user.name, user_path(post.user) %></small></p>
-        <%= truncate(post.body, length: 0, separator: '---MORE---', escape: false) { link_to 'Continue...', post_path(post) } %>
-      </div>
+	  <div class="post">
+	    <h2 class="text-center"><%= link_to post.title.html_safe, post_path(post) %></h2>
+	    <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %> by <%= link_to post.user.name, user_path(post.user) %></small></p>
+	    <%= truncate(post.body, length: 0, separator: '---MORE---', escape: false) { link_to 'Continue...', post_path(post) } %>
+	  </div>
 	<hr>
   <% end %>
 </div>

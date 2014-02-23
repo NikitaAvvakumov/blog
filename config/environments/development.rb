@@ -26,4 +26,7 @@ Blog2::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  # Tells Paperclip where to find ImageMagick
+  Paperclip.options[:command_path] = "/opt/local/bin/"
 end

@@ -3,7 +3,8 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
 	  <h1>
-	    <%= gravatar_for @user %>
+	    <%#= gravatar_for @user %>
+	    <%= image_tag @user.avatar.url(:thumb), class: 'avatar img-circle' %>
 	    <%= @user.name %>&nbsp;&nbsp;
 	    <% if signed_in? %>
           <small><%= link_to '', edit_user_path(@user), class: 'glyphicon glyphicon-pencil', id: "#{@user.name}_edit",
