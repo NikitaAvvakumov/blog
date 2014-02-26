@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates :title, presence: true
   has_secure_password
   validates :password, length: { minimum: 8 }
+  validates :slug, presence: true, uniqueness: true
 
   default_scope -> { order('id ASC') }
 
@@ -16,6 +17,7 @@ class User < ActiveRecord::Base
 
   before_save :downcase_email
   before_create :create_remember_token
+  before_validation :create_slug
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64
@@ -23,6 +25,10 @@ class User < ActiveRecord::Base
 
   def User.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+
+  def to_param
+    slug
   end
 
   private
@@ -33,5 +39,9 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       self.remember_token = User.encrypt(User.new_remember_token)
+    end
+
+    def create_slug
+      self.slug = name.downcase.parameterize
     end
 end

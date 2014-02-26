@@ -5,8 +5,10 @@ describe "Post views" do
   subject { page }
 
   describe 'index view / homepage' do
-    let!(:older_post) { Post.create(title: 'An older post', body: 'This is an older blog post.---MORE---') }
-    let!(:newer_post) { Post.create(title: 'A newer post', body: 'This is a newer blog post.---MORE---More text here.') }
+
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:older_post) { user.posts.create(title: 'An older post', body: 'This is an older blog post.---MORE---') }
+    let!(:newer_post) { user.posts.create(title: 'A newer post', body: 'This is a newer blog post.---MORE---More text here.') }
     before { visit root_path }
 
     it { should have_title('The quoth blog.') }
@@ -32,15 +34,23 @@ describe "Post views" do
       end
 
       describe 'new post link' do
-        before { click_link 'New post' }
+        before do
+          sign_in user
+          visit root_path
+          click_link 'Create a new post'
+        end
         it { should have_title 'New post' }
       end
     end
   end
 
   describe 'individual post views' do
-    let(:post) { Post.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.') }
-    before { visit post_path(post) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.') }
+    before do
+      sign_in user
+      visit post_path(post)
+    end
 
     it { should have_title post.title }
     it { should have_selector 'h2', text: post.title }
@@ -60,7 +70,11 @@ describe "Post views" do
   end
 
   describe 'new post view' do
-    before { visit new_post_path }
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      visit new_post_path
+    end
 
     it { should have_title 'New post' }
     it { should have_selector 'h1', text: 'Write an awesome new post' }
@@ -94,8 +108,12 @@ describe "Post views" do
   end
 
   describe 'edit post view' do
-    let(:post) { Post.create(title: 'A new post', body: 'This is a new blog post') }
-    before { visit edit_post_path(post) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post') }
+    before do
+      sign_in user
+      visit edit_post_path(post)
+    end
 
     it { should have_title post.title }
     it 'should have the post title in text input' do

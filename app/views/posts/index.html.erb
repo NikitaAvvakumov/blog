@@ -6,7 +6,7 @@
   <hr />
 
   <div class="bloggers-intro">
-	<% User.all.each do |user| %>
+	<% @users.each do |user| %>
 	  <div class="user-blurb">
 		<%#= link_to gravatar_for(user), user_path(user) %>
 	    <%= link_to (image_tag user.avatar.url(:thumb), class: 'img-circle avatar'), user_path(user) %>

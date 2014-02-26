@@ -17,6 +17,7 @@ describe User do
   it { should respond_to :authenticate }
   it { should respond_to :remember_token }
   it { should respond_to :posts }
+  it { should respond_to :slug }
   it { should be_valid }
 
   describe 'validations' do
@@ -107,6 +108,30 @@ describe User do
       @user.save
     end
     specify { expect(@user.reload.email).to eq 'nik@quoth.com' }
+  end
+
+  describe 'saving user should generate slug' do
+    before { @user.save }
+
+    context 'when creating new user' do
+      its(:slug) { should eq @user.name.downcase }
+    end
+
+    context 'when updating existing user' do
+      before do
+        @user.name = 'Nikita'
+        @user.save
+      end
+      its(:slug) { should eq 'Nikita'.downcase }
+    end
+
+    context 'when name contains spaces' do
+      before do
+        @user.name = 'Nikita Georgievich'
+        @user.save
+      end
+      its(:slug) { should eq 'nikita-georgievich' }
+    end
   end
 
   describe 'associated posts' do

@@ -19,11 +19,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by_slug(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by_slug(params[:id])
     name = @user.name
     email = @user.email
     bio = @user.bio
@@ -39,14 +39,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = User.find_by_slug(params[:id])
     user.destroy
     flash[:success] = 'Blogger has been deleted.'
     redirect_to users_path
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_slug(params[:id])
   end
 
   def index
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
     end
 
     def correct_user
-      @user = User.find(params[:id])
+      @user = User.find_by_slug(params[:id])
       redirect_to root_url unless current_user?(@user)
     end
 end
