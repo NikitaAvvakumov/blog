@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :title, presence: true
   has_secure_password
   validates :password, length: { minimum: 8 }
-  validates :slug, presence: true, uniqueness: true
+  validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
   default_scope -> { order('id ASC') }
 
@@ -42,6 +42,6 @@ class User < ActiveRecord::Base
     end
 
     def create_slug
-      self.slug = name.downcase.parameterize
+      self.slug = name.parameterize
     end
 end
