@@ -47,24 +47,61 @@ describe "Post views" do
   describe 'individual post views' do
     let(:user) { FactoryGirl.create(:user) }
     let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.') }
-    before do
-      sign_in user
-      visit post_path(post)
+    let!(:comment1) { post.comments.create(content: 'Lorem ipsum', author: 'Commenter One') }
+    let!(:comment2) { post.comments.create(content: 'Dolor sit amet', author: 'Commenter Two') }
+
+    describe 'as a visitor' do
+      before { visit post_path(post) }
+
+      it { should have_title post.title }
+      it { should have_selector 'h2', text: post.title }
+      it { should have_content 'This is a new blog post.' }
+      it { should have_content 'More text here.' }
+      it { should_not have_content '---MORE---' }
+      it { should_not have_link 'Edit', href: edit_post_path(post) }
+      it { should_not have_link 'Delete', href: post_path(post) }
+
+      describe 'comments' do
+        it { should have_content comment1.content }
+        it { should have_content comment2.content }
+        it { should have_content comment1.author }
+        it { should have_content comment2.author }
+        it { should have_content post.comments.count }
+        it { should_not have_link "#{comment1}_delete" }
+        it { should_not have_link "#{comment2}_delete" }
+      end
     end
 
-    it { should have_title post.title }
-    it { should have_selector 'h2', text: post.title }
-    it { should have_content 'This is a new blog post.' }
-    it { should have_content 'More text here.' }
-    it { should_not have_content '---MORE---' }
-    it { should have_link 'Edit', href: edit_post_path(post) }
-    it { should have_link 'Delete' }
+    describe 'as a signed-in user' do
+      before do
+        sign_in user
+        visit post_path(post)
+      end
 
-    describe 'deleting the post' do
-      it 'should delete the post' do
-        expect { click_link 'Delete' }.to change(Post, :count).by(-1)
-        expect(page).to have_title(full_title(''))
-        expect(page).to have_selector 'div.alert.alert-success', text: 'Post deleted.'
+      describe 'post' do
+        it { should have_link 'Edit', href: edit_post_path(post) }
+        it { should have_link 'Delete', href: post_path(post) }
+
+        describe 'deleting the post' do
+          it 'should delete the post' do
+            expect { click_link 'Delete' }.to change(Post, :count).by(-1)
+            expect(page).to have_title(full_title(''))
+            expect(page).to have_selector 'div.alert.alert-success', text: 'Post deleted.'
+          end
+        end
+      end
+
+      describe 'comments' do
+        it { should have_link "#{comment1.id}_delete" }
+        it { should have_link "#{comment2.id}_delete" }
+
+        describe 'deleting comments' do
+          it 'should delete the comment' do
+            expect { click_link "#{comment1.id}_delete" }.to change(Comment, :count).by(-1)
+            expect(page).to have_title(full_title(post.title))
+            expect(page).to have_selector 'div.alert.alert-success', text: 'Comment deleted.'
+          end
+        end
       end
     end
   end
@@ -84,6 +121,11 @@ describe "Post views" do
       describe 'with incomplete information' do
         it 'should not create a post' do
           expect { click_button 'Create post' }.not_to change(Post, :count)
+        end
+
+        describe 'error message' do
+          before { click_button 'Create post' }
+          it { should have_content 'problem' }
         end
       end
 

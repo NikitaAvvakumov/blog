@@ -1,0 +1,14 @@
+<li>
+  <% unless comment.id == nil %>
+  <h4 class="comment-author"><%= sanitize(comment.author) %></h4>
+  <span class="date"><small><%= time_ago_in_words(comment.created_at) %> ago</small></span>
+
+  <p class="comment-content"><%= sanitize(comment.content) %></p>
+
+  <% if signed_in? %>
+      <%= link_to '', post_comment_path(comment.post, comment), method: :delete, data: { confirm: 'Delete comment?' },
+                  class: 'glyphicon glyphicon-trash text-danger', id: "#{comment.id}_delete",
+                  title: 'Delete comment', rel: 'tooltip' %>
+  <% end %>
+  <% end %>
+</li>

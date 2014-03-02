@@ -13,4 +13,11 @@ FactoryGirl.define do
     body 'Lorem ipsum dolor sit amet'
     user
   end
+
+  factory :comment do
+    content 'Comment content'
+    author 'Rando M. Commenter'
+    email 'rando@example.com'
+    post
+  end
 end

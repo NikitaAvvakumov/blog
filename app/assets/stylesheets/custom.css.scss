@@ -90,6 +90,28 @@ h2 a, .quoth-typography {
   margin-right: 10px;
 }
 
+/* comments */
+.comments-list {
+  list-style: none;
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid $gray-lighter;
+  }
+}
+
+.comment-author {
+  margin-bottom: 0px;
+}
+
+.comment-content {
+  padding: 5px 0px;
+}
+
+.you {
+  font-style: italic;
+}
+
 /* miscellaneous */
 a.glyphicon:hover {
   text-decoration: none;

@@ -61,7 +61,7 @@ describe "Authentications" do
         it { should have_title 'Sign in' }
       end
 
-      describe 'attempting to issue a direct post request while not signed in' do
+      describe 'attempting to issue a direct POST request while not signed in' do
         before { post users_path }
         specify { expect(response).to redirect_to signin_path }
       end
@@ -71,8 +71,13 @@ describe "Authentications" do
         it { should have_title 'Sign in' }
       end
 
-      describe 'attempting to issue a direct patch request while not signed in' do
+      describe 'attempting to issue a direct PATCH request while not signed in' do
         before { patch user_path(user) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+      describe 'attempting to delete a user while not signed in' do
+        before { delete user_path(user) }
         specify { expect(response).to redirect_to signin_path }
       end
 
@@ -94,6 +99,47 @@ describe "Authentications" do
         end
       end
 =end
+    end
+
+    describe 'in the Posts controller' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:post) { FactoryGirl.create(:post, user: user) }
+
+      describe 'attempting to access the new post path without signing in' do
+        before { visit new_post_path }
+        it { should have_title 'Sign in' }
+      end
+
+      #describe 'attempting to issue a direct POST request while not signed in' do
+      #  before { post posts_path }
+      #  specify { expect(response).to redirect_to signin_path }
+      #end
+
+      describe 'attempting to access the post edit page while not signed in' do
+        before { visit edit_post_path(post) }
+        it { should have_title 'Sign in' }
+      end
+
+      describe 'attempting to issue a direct PATCH request while not signed in' do
+        before { patch post_path(post) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+      describe 'attempting to delete a post while not signed in' do
+        before { delete post_path(post) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+    end
+
+    describe 'in the Comments controller' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:post) { FactoryGirl.create(:post, user: user) }
+      let(:comment) { FactoryGirl.create(:comment, post:post) }
+
+      describe 'attempting to delete a post while not signed in' do
+        before { delete post_comment_path(post, comment) }
+        specify { expect(response).to redirect_to signin_path }
+      end
     end
   end
 end

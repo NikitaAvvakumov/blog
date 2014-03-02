@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+  before_action :signed_in_user, except: [:index, :show]
+
   def new
     @post = Post.new
   end
@@ -10,6 +13,8 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comments = @post.comments
+    @new_comment = @post.comments.build
   end
 
   def create

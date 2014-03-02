@@ -11,6 +11,7 @@ describe Post do
   it { should respond_to :user_id }
   it { should respond_to :user }
   its(:user) { should eq user }
+  it { should respond_to :comments }
   it { should be_valid }
 
   describe 'validations' do
@@ -30,14 +31,23 @@ describe Post do
     end
   end
 
-  describe 'ordering' do
-    let(:user2) { FactoryGirl.create(:user, name: 'Unique Name', email: 'unique@quoth.com') }
-    let!(:oldest_post) { user2.posts.create(title: 'Title', body: 'text', created_at: 1.year.ago) }
-    let!(:older_post) { user.posts.create(title: 'Title', body: 'text', created_at: 1.day.ago) }
-    let!(:newer_post) { user.posts.create(title: 'Title', body: 'text', created_at: 1.hour.ago) }
+  describe 'comment associations' do
+    before { @post.save }
+    let!(:newer_comment) { FactoryGirl.create(:comment, post: @post, created_at: 1.hour.ago) }
+    let!(:older_comment) { FactoryGirl.create(:comment, post: @post, created_at: 1.day.ago) }
+    let!(:newest_comment) { FactoryGirl.create(:comment, post: @post, created_at: 1.minute.ago) }
 
-    it 'should arrange posts in reverse chronological order' do
-      expect(Post.all.to_a).to eq [newer_post, older_post, oldest_post]
+    it 'should retreive comments in chronological order' do
+      expect(@post.comments.to_a).to eq [older_comment, newer_comment, newest_comment]
+    end
+
+    it 'should destroy comments when post is destroyed' do
+      comments = @post.comments.to_a
+      @post.destroy
+      expect(comments).not_to be_empty
+      comments.each do |comment|
+        expect(Comment.where(id: comment.id)).to be_empty
+      end
     end
   end
 end

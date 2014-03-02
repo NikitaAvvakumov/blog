@@ -1,0 +1,20 @@
+<h3>What do <span class="you">you</span> think?</h3>
+
+<%= form_for [@post, @new_comment] do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <div class="form-group">
+      <%= f.text_field :author, class: 'form-control', placeholder: 'Name (required)' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.text_field :email, class: 'form-control', placeholder: 'email (optional)' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.text_area :content, rows: '10', class: 'form-control' %>
+    </div>
+
+    <%= f.submit 'Post your comment', class: 'btn btn-default' %>
+<% end %>

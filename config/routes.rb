@@ -1,6 +1,10 @@
 Blog2::Application.routes.draw do
 
-  resources :posts
+  resources :posts do
+    resources :comments, except: [:show, :edit]
+  end
+
+  #resources :comments, except: [:show, :edit]
   #resources :users
   resources :writers, as: :users, controller: 'users', param: :slug
   # show 'writers' in url, use 'users' in named helpers e.g. 'new_user_path' - legacy, use 'users' controller

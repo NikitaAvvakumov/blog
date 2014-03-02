@@ -29,4 +29,11 @@ module SessionsHelper
   def current_user?(user)
     user == current_user
   end
+
+  def signed_in_user
+    unless signed_in?
+      flash[:warning] = 'Please sign in.'
+      redirect_to signin_url
+    end
+  end
 end
