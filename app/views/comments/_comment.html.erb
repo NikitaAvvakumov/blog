@@ -1,4 +1,9 @@
-<% comment_class = 'quother' if comment.quother %>
+<% if comment.quother %>
+    <% comment_class = 'quother' %>
+<% else %>
+	<% comment_class = 'visitor' %>
+<% end %>
+
 <%= div_for comment, class: "#{comment_class}" do %>
   <h4 class="comment-author"><%= sanitize(comment.author) %><%= sanitize(" @ <span class='quoth-typography'> quoth</span>") if comment.quother %></h4>
   <span class="date"><small><%= time_ago_in_words(comment.created_at) %> ago</small></span>
