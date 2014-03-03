@@ -112,6 +112,10 @@ h2 a, .quoth-typography {
   border-radius: 5px;
 }
 
+.quother {
+  background-color: $alert-warning-bg;
+}
+
 /* miscellaneous */
 a.glyphicon:hover {
   text-decoration: none;

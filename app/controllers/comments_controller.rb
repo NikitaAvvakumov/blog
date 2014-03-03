@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
+    @comment.quother = true if signed_in?
     if @comment.save
       @new_comment = @post.comments.new
       respond_to do |format|

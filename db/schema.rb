@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140227135156) do
+ActiveRecord::Schema.define(version: 20140303142238) do
 
   create_table "comments", force: true do |t|
     t.string   "content"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140227135156) do
     t.datetime "updated_at"
     t.string   "author"
     t.string   "email"
+    t.boolean  "quother",    default: false
   end
 
   add_index "comments", ["post_id", "created_at"], name: "index_comments_on_post_id_and_created_at"
