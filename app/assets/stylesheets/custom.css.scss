@@ -91,13 +91,8 @@ h2 a, .quoth-typography {
 }
 
 /* comments */
-.comments-list {
-  list-style: none;
-
-  li {
-    padding: 10px 0;
-    border-top: 1px solid $gray-lighter;
-  }
+.comment {
+  padding: 10px 10px 0px 10px;
 }
 
 .comment-author {
@@ -112,6 +107,11 @@ h2 a, .quoth-typography {
   font-style: italic;
 }
 
+.last-comment {
+  background-color: $alert-info-bg;
+  border-radius: 5px;
+}
+
 /* miscellaneous */
 a.glyphicon:hover {
   text-decoration: none;
@@ -122,6 +122,11 @@ a.glyphicon:hover {
   clear: both;
   width: 80%;
   margin-top: 45px;
+}
+
+.hr-wider {
+  height: 3px;
+  background-color: $gray-light;
 }
 
 /* forms */

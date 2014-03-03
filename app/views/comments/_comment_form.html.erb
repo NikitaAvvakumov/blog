@@ -1,6 +1,6 @@
 <h3>What do <span class="you">you</span> think?</h3>
 
-<%= form_for [@post, @new_comment] do |f| %>
+<%= form_for [@post, @new_comment], remote: true do |f| %>
 
     <%= render 'shared/error_messages', object: f.object %>
 

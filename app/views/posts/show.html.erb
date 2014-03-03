@@ -4,19 +4,18 @@
 	<div class="col-md-8 col-md-offset-2">
 		<%= render 'posts/post', post: @post %>
 
-		<hr />
-
 		<% if signed_in? %>
-			<%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
-			<%= link_to 'Delete', @post, method: :delete, id: "#{@post.title.parameterize}-delete", data: { confirm: 'Delete post?' } %> &nbsp;&nbsp;
+		  <%= link_to 'Edit', edit_post_path(@post) %> &nbsp;&nbsp;
+	      <%= link_to 'Delete', @post, method: :delete, id: "#{@post.title.parameterize}-delete", data: { confirm: 'Delete post?' } %> &nbsp;&nbsp;
 		<% end %>
 
-		<% if @post.comments.any? %>
-	        <h3>This article has <%= pluralize(@post.comments.count, 'comment') %></h3>
-		    <ul class="comments-list">
-		      <%= render @post.comments %>
-		    </ul>
-	    <% end %>
+	  <hr class="hr-wider" />
+	  <h4 id="comments-count">This article has <%= pluralize(@post.comments.count, 'comment') %></h4>
+	  <hr />
+
+	    <div id="comments-list">
+	      <%= render partial: @post.reload.comments %>
+	    </div>
 
 	  <div id="comment-form">
 	    <%= render 'comments/comment_form' %>
