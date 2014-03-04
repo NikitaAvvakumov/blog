@@ -10,8 +10,8 @@ The blog uses the Paperclip gem to handle uploads of user profile pictures. Boot
 
 #Log of features and key modifications:
 -03/03/2014: Commenting system improved to include AJAX for posting & deleting comments without page reloads.
-    * a visitor's just-posted comment(s) are highlighted in blue.
-    * comments by blog writers are treated differently: when a writer posts a comment while logged in, his/her name is pre-filled in the comment entry form and is not editable. After posting, the comment receives a yellow highlight and "@ blog-name" is appended to the writer's name.
+* a visitor's just-posted comment(s) are highlighted in blue.
+* comments by blog writers are treated differently: when a writer posts a comment while logged in, his/her name is pre-filled in the comment entry form and is not editable. After posting, the comment receives a yellow highlight and "@ blog-name" is appended to the writer's name.
 
 -02/03/2014: Comments created as a nested resource of Posts
 
