@@ -1,6 +1,6 @@
 A blog application written in Ruby on Rails
-Ruby version: 2.1.0
-Rails version: 4.0.2
+* Ruby version: 2.1.0
+* Rails version: 4.0.2
 
 This blog app is intended for use by a single blogger or a small team of known, trusted bloggers. All users have ability to create and delete users, and modify any profile or article. Comments on articles are open to the public and require a visitor's name but not email to be posted. Comments are not editable but can be deleted by any logged in writer.
 
