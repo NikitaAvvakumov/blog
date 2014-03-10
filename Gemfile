@@ -61,5 +61,6 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-# Use Paperclip to manage image attachments
+# Use Paperclip to manage image attachments and paperclip-dropbox for Dropbox storage
 gem 'paperclip', '~> 3.0'
+gem 'paperclip-dropbox', '>= 1.1.7'

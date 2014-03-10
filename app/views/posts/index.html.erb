@@ -9,7 +9,7 @@
 	<% @users.each do |user| %>
 	  <div class="user-blurb">
 		<%#= link_to gravatar_for(user), user_path(user) %>
-	    <%= link_to (image_tag user.avatar.url(:thumb), class: 'img-circle avatar'), user_path(user) %>
+	    <%= link_to (image_tag user.avatar.url, class: 'img-circle avatar'), user_path(user) %>
 		<p class="text-center"><%= link_to user.name, user_path(user) %></p>
 		<p class="text-center"><small><%= user.title %></small></p>
 	  </div>

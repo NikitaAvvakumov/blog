@@ -16,6 +16,7 @@
 /tmp
 
 # Ignore other unneeded files.
+dropbox.yml
 database.yml
 doc/
 *.swp
