@@ -6,9 +6,10 @@ describe "Layouts" do
 
   describe 'page titles' do
     let(:user) { FactoryGirl.create(:user) }
+    let(:topic) { Topic.create(name: 'Code') }
     before do
       sign_in user
-      @post = user.posts.create(title: 'A new post', body: 'A new blog post.')
+      @post = user.posts.create(title: 'A new post', body: 'A new blog post.', topic: topic)
     end
 
     it 'should generate correct page titles' do

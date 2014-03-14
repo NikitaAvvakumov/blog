@@ -2,6 +2,7 @@
 <div class="col-md-8 col-md-offset-2">
   <h1 class="welcome text-center">Welcome to the
     <%= link_to 'quoth', "#", class: 'quoth-typography' %> blog.</h1>
+    <p class="text-center"><%= sanitize(@topics.map { |t| link_to t.name, topic_path(t) }.join ' / ') %></p>
 
   <hr />
 

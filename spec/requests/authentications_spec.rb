@@ -37,7 +37,8 @@ describe "Authentications" do
         it { should have_content user.bio }
         it { should have_link 'Sign out', href: signout_path }
         it { should_not have_link 'Sign in', href: signin_path }
-        it { should have_link 'All bloggers', href: users_path }
+        it { should have_link 'Manage bloggers', href: users_path }
+        it { should have_link 'Manage article topics', href: topics_path }
         it { should have_link 'My page', href: user_path(user) }
 
         describe 'followed by sign out' do
@@ -133,7 +134,8 @@ describe "Authentications" do
 
     describe 'in the Comments controller' do
       let(:user) { FactoryGirl.create(:user) }
-      let(:post) { FactoryGirl.create(:post, user: user) }
+      let(:topic) { Topic.create(name: 'Code') }
+      let(:post) { FactoryGirl.create(:post, user: user, topic: topic) }
       let(:comment) { FactoryGirl.create(:comment, post:post) }
 
       describe 'attempting to delete a post while not signed in' do

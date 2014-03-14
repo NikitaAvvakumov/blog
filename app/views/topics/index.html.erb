@@ -1,0 +1,41 @@
+<% provide(:title, 'Topics') %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1 class="text-center">Article topics on <span class="quoth-typography">the quoth blog</span> </h1>
+    <hr />
+
+    <ul class="blogger-ul">
+      <% @topics.each do |topic| %>
+          <li class="blogger-li">
+            <h2>
+              <%= link_to topic.name, topic_path(topic), class: 'text-warning' %>
+            </h2>
+              <p>
+                <% if topic.posts.any? %>
+	                <% if topic.posts.count == 1 %>
+		                There is
+		            <% else %>
+		                There are
+		            <% end %>
+	                <%= link_to pluralize(topic.posts.count, 'article'), topic_path(topic) %>
+                    on this topic written by
+                    <%= sanitize(topic.posts.map { |p| link_to(p.user.name, user_path(p.user)) }.uniq.join ', ') %>
+	            <% else %>
+                    We are currently writing articles on this topic. Check back soon!
+                <% end %>
+              </p>
+              &nbsp;&nbsp;
+              <% if signed_in? %>
+                  <%= link_to '', edit_topic_path(topic), class: 'glyphicon glyphicon-pencil', id: "#{topic.name}_edit",
+                              title: 'Edit this topic', rel: 'tooltip' %>
+                  &nbsp;
+                  <%= link_to '', topic, method: :delete, data: { confirm: "Delete #{topic.name} from the system?" },
+                              class: 'glyphicon glyphicon-trash text-danger', id: "#{topic.name}_delete",
+                              title: 'Delete this topic', rel: 'tooltip' %>
+              <% end %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

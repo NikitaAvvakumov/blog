@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe CommentsController do
   let(:user) { FactoryGirl.create(:user) }
-  let(:post) { FactoryGirl.create(:post, user: user) }
+  let(:topic) { Topic.create(name: 'Code') }
+  let(:post) { FactoryGirl.create(:post, user: user, topic: topic) }
 
   describe 'posting a comment' do
 

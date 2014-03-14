@@ -1,0 +1,23 @@
+<% provide(:title, 'Create a new topic') %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1 class="text-center">Create a new topic</h1>
+    <p class="text-center" style="padding-bottom: 20px;"><small>Let's keep the number of topics as small as possible to maintain focus.
+    Only create a new topic if your upcoming article definitely does not belong in any of the existing ones.<br />
+    <span class="pull-right"> --Thanks.</span></small></p>
+
+    <%= form_for @topic do |f| %>
+
+	    <%= render 'shared/error_messages', object: f.object %>
+
+	    <div class="form-group">
+	      <%= f.label :name, 'Topic name' %>
+	      <%= f.text_field :name, class: 'form-control' %>
+	    </div>
+
+		<%= f.submit 'Create new topic', class: 'btn btn-info' %>
+    <% end %>
+
+  </div>
+</div>

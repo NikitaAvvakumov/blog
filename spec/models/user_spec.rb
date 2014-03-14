@@ -136,8 +136,9 @@ describe User do
 
   describe 'associated posts' do
     before { @user.save }
-    let!(:older_post) { FactoryGirl.create(:post, user: @user, created_at: 1.day.ago) }
-    let!(:newer_post) { FactoryGirl.create(:post, user: @user, created_at: 1.hour.ago) }
+    let!(:topic) { Topic.create(name: 'Code') }
+    let!(:older_post) { FactoryGirl.create(:post, user: @user, topic: topic, created_at: 1.day.ago) }
+    let!(:newer_post) { FactoryGirl.create(:post, user: @user, topic: topic, created_at: 1.hour.ago) }
 
     it 'should arrange the posts in reverse chronological order' do
       expect(@user.posts.to_a).to eq [newer_post, older_post]
