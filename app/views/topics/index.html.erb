@@ -36,6 +36,9 @@
               <% end %>
           </li>
       <% end %>
+      <% if signed_in? %>
+	      <li class="blogger-li"><%= link_to 'Add new topic', new_topic_path, class: 'btn btn-info' %></li>
+	  <% end %>
     </ul>
   </div>
 </div>
