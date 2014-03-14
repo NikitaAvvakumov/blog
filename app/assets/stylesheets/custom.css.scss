@@ -61,11 +61,16 @@ h2 a, .quoth-typography {
   padding-bottom: 20px;
 }
 
-.avatar {
+.avatar-form {
   height: 100px;
   width: 100px;
-  float: left;
+  /*float: left; */
   margin: 0px 10px;
+}
+
+.avatar {
+  @extend .avatar-form;
+  float: left;
 }
 
 .user-blurb {
