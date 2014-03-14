@@ -1,0 +1,29 @@
+<%= form_for @post do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <div class="form-group">
+      <p><label>Choose this article's topic</label></p>
+      <% Topic.all.each do |t| %>
+          <div class="radio-inline">
+            <%= f.radio_button :topic_id, t.id %>
+            <%= f.label "topic_id_#{t.id}", t.name %>
+          </div>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :body %>
+      <%= f.text_area :body, rows: '20', class: 'form-control' %>
+    </div>
+
+    <%= f.submit button_text, class: 'btn btn-info' %>
+	<% if button_text == 'Update post' %>
+        <%= link_to 'Abandon changes', @post, { class: 'btn btn-warning', style: 'float: right' } %>
+	<% end %>
+<% end %>

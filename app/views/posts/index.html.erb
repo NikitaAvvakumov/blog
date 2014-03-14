@@ -24,13 +24,6 @@
   <hr />
   </div>
 
-  <% @posts.each do |post| %>
-	  <div class="post">
-	    <h2 class="text-center"><%= link_to post.title.html_safe, post_path(post) %></h2>
-	    <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %> by <%= link_to post.user.name, user_path(post.user) %></small></p>
-	    <%= truncate(post.body, length: 0, separator: '---MORE---', escape: false) { link_to 'Continue...', post_path(post) } %>
-	  </div>
-	<hr>
-  <% end %>
+  <%= render 'posts/post_stub' %>
 </div>
 </div>

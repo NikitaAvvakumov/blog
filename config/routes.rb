@@ -9,6 +9,7 @@ Blog2::Application.routes.draw do
   resources :writers, as: :users, controller: 'users', param: :slug
   # show 'writers' in url, use 'users' in named helpers e.g. 'new_user_path' - legacy, use 'users' controller
   resources :sessions, only: [:new, :create, :destroy]
+  resources :topics
 
   root 'posts#index'
 

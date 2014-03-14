@@ -1,0 +1,11 @@
+<% provide(:title, @topic.name) %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+	<h1 class="text-center"><span class="quoth-typography">the quoth blog:</span>
+	  <span class="text-warning"><%= @topic.name %></span></h1>
+    <hr />
+
+    <%= render 'posts/post_stub' %>
+  </div>
+</div>

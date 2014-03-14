@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Post do
   let(:user) { FactoryGirl.create(:user) }
-  before { @post = user.posts.build(title: 'A new post', body: 'This is a new blog post.') }
+  let(:topic) { Topic.create(name: 'Code') }
+  before { @post = user.posts.build(title: 'A new post', body: 'This is a new blog post.', topic: topic) }
 
   subject { @post }
 
@@ -10,6 +11,8 @@ describe Post do
   it { should respond_to :body }
   it { should respond_to :user_id }
   it { should respond_to :user }
+  it { should respond_to :topic }
+  it { should respond_to :topic_id }
   its(:user) { should eq user }
   it { should respond_to :comments }
   it { should be_valid }

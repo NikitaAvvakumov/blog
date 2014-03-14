@@ -4,22 +4,7 @@
   <div class="col-md-8 col-md-offset-2">
 <h1 class="text-center">Write an awesome new post</h1>
 
-<%= form_for @post do |f| %>
-
-  <%= render 'shared/error_messages', object: f.object %>
-
-  <div class="form-group">
-    <%= f.label :title %>
-    <%= f.text_field :title, class: 'form-control' %>
-  </div>
-
-<div class="form-group">
-  <%= f.label :body %>
-  <%= f.text_area :body, rows: '20', class: 'form-control' %>
-</div>
-
-<%= f.submit 'Create post', class: 'btn btn-info' %>
-<% end %>
+<%= render 'post_form', button_text: 'Create post' %>
 
 <p><br /><%= link_to 'Home', root_path %></p>
 </div>

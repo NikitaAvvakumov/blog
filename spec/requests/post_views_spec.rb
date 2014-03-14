@@ -7,8 +7,9 @@ describe "Post views" do
   describe 'index view / homepage' do
 
     let(:user) { FactoryGirl.create(:user) }
-    let!(:older_post) { user.posts.create(title: 'An older post', body: 'This is an older blog post.---MORE---') }
-    let!(:newer_post) { user.posts.create(title: 'A newer post', body: 'This is a newer blog post.---MORE---More text here.') }
+    let(:topic) { Topic.new(name: 'Code') }
+    let!(:older_post) { user.posts.create(title: 'An older post', body: 'This is an older blog post.---MORE---', topic: topic) }
+    let!(:newer_post) { user.posts.create(title: 'A newer post', body: 'This is a newer blog post.---MORE---More text here.', topic: topic) }
     before { visit root_path }
 
     it { should have_title('The quoth blog.') }
@@ -46,7 +47,8 @@ describe "Post views" do
 
   describe 'individual post views' do
     let(:user) { FactoryGirl.create(:user) }
-    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.') }
+    let(:topic) { Topic.new(name: 'Code') }
+    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post.---MORE---More text here.', topic: topic) }
     let!(:comment1) { post.comments.create(content: 'Lorem ipsum', author: 'Commenter One') }
     let!(:comment2) { post.comments.create(content: 'Dolor sit amet', author: 'Commenter Two') }
 
@@ -60,6 +62,7 @@ describe "Post views" do
       it { should_not have_content '---MORE---' }
       it { should_not have_link 'Edit', href: edit_post_path(post) }
       it { should_not have_link 'Delete', href: post_path(post) }
+      it { should have_link topic.name, href: topic_path(topic) }
 
       describe 'comments' do
         it { should have_content comment1.content }
@@ -108,6 +111,9 @@ describe "Post views" do
 
   describe 'new post view' do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:topic1) { Topic.create(name: 'Code') }
+    let!(:topic2) { Topic.create(name: 'Design') }
+
     before do
       sign_in user
       visit new_post_path
@@ -115,6 +121,7 @@ describe "Post views" do
 
     it { should have_title 'New post' }
     it { should have_selector 'h1', text: 'Write an awesome new post' }
+    it { should_not have_link 'Abandon changes' }
 
     describe 'new post creation' do
 
@@ -133,6 +140,7 @@ describe "Post views" do
         before do
           fill_in 'Title', with: 'A new post'
           fill_in 'Body', with: 'This is a brand new blog post'
+          choose 'post_topic_id_1'
         end
 
         it 'should create a new post' do
@@ -151,7 +159,9 @@ describe "Post views" do
 
   describe 'edit post view' do
     let(:user) { FactoryGirl.create(:user) }
-    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post') }
+    let!(:topic1) { Topic.create(name: 'Code') }
+    let!(:topic2) { Topic.create(name: 'Design') }
+    let(:post) { user.posts.create(title: 'A new post', body: 'This is a new blog post', topic: topic1) }
     before do
       sign_in user
       visit edit_post_path(post)
@@ -162,6 +172,7 @@ describe "Post views" do
       expect(find_field('post_title').value).to eq post.title
     end
     it { should have_selector 'textarea', text: post.body }
+    it { should have_link 'Abandon changes' }
 
     describe 'updating the post' do
       describe 'with incomplete information' do
@@ -188,11 +199,13 @@ describe "Post views" do
         before do
           fill_in 'Title', with: 'A new title'
           fill_in 'Body', with: 'New body text.'
+          choose 'post_topic_id_2'
           click_button 'Update post'
         end
 
         it { should have_title(full_title('A new title')) }
         it { should have_content 'New body text.' }
+        it { should have_content "This is an article on #{topic2.name}." }
         it { should have_selector 'div.alert.alert-success', text: 'The post was updated.'}
       end
     end

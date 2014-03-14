@@ -1,5 +1,6 @@
 <div class="post">
   <%= content_tag :h2, sanitize(post.title), class: 'text-center' %>
   <p class="date"><small><%= post.created_at.strftime("%d %B %Y") %> by <%= link_to post.user.name, user_path(post.user) %></small></p>
+  <p class="text-center"><small>This is an article on <%= link_to post.topic.name, topic_path(post.topic) %>.</small></p>
   <%= post.body.gsub('---MORE---', '').html_safe %>
 </div>
