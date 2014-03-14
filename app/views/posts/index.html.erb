@@ -7,13 +7,21 @@
   </div>
 
   <h1 class="text-center">Welcome to the <span class="quoth-typography">quoth</span> blog.</h1>
+
+  <p class="text-center" style="color: #9A0000">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    Take a moment to enjoy your <%= Date::DAYNAMES[Time.now.wday] %> :)
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </p>
+
   <h3 class="welcome text-center"><small>
     This is the blog of the team that is currently developing
     <%= link_to 'quoth', 'https://pacific-basin-6357-quoth.herokuapp.com/', class: 'quoth-typography' %>.
     We write about web development in <%= link_to 'Ruby on Rails', 'http://rubyonrails.org/' %> and about web design
     that are taking place as we build the <span class="quoth-typography">quoth</span> app.</small>
   </h3>
-    <p class="text-center"><%= sanitize(@topics.map { |t| link_to t.name, topic_path(t) }.join ' / ') %></p>
+
+  <p class="text-center">Read our articles on <%= sanitize(@topics.map { |t| link_to t.name, topic_path(t) }.join ' / ') %></p>
 
   <hr />
 

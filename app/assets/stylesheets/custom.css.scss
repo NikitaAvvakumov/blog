@@ -6,6 +6,10 @@ body {
   font-size: 16px;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 .welcome {
   padding-bottom: 10px;
 }
@@ -27,9 +31,6 @@ body {
 
 h2 a, .quoth-typography {
   color: $gray-dark;
-  &:hover {
-    text-decoration: none;
-  }
 }
 
 .date {
