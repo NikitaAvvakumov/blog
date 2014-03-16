@@ -1,3 +1,5 @@
+This blog is deployed at [https://quoth-blog.herokuapp.com/](https://quoth-blog.herokuapp.com/)
+
 A blog application written in Ruby on Rails
 * Ruby version: 2.1.0
 * Rails version: 4.0.2
@@ -9,9 +11,9 @@ At present, no helpers are included for article creation. Therefore, all markup,
 The blog uses the Paperclip gem to handle uploads of user profile pictures. Bootstrap styling and layout via the Bootstrap-SASS gem. The app is deployable to Heroku and includes the pg gem in the Production group.
 
 #Log of features and key modifications:
--03/03/2014: Commenting system improved to include AJAX for posting & deleting comments without page reloads.
-* a visitor's just-posted comment(s) are highlighted in blue.
-* comments by blog writers are treated differently: when a writer posts a comment while logged in, his/her name is pre-filled in the comment entry form and is not editable. After posting, the comment receives a yellow highlight and "@ blog-name" is appended to the writer's name.
+-14/03/2014: Post topics added
+-10/03/2014: Paperclip configured to use Dropbox storage
+-03/03/2014: Commenting system improved to include AJAX for posting & deleting comments without page reloads; comment formatting enhanced
 
 -02/03/2014: Comments created as a nested resource of Posts
 
@@ -26,12 +28,3 @@ The blog uses the Paperclip gem to handle uploads of user profile pictures. Boot
 -01/02/2014: Basic app layout finished with Bootstrap
 
 -31/02/2014: Initial commit and Posts resource created
-
-#Deployment:
-After deployment to Heroku and database migrations, the first user must be created manually via the Heroku console. Required attributes:
-* name
-* email (format validated)
-* title
-* password (min 8)
-* password_confirmation (must match password)
-* bio
