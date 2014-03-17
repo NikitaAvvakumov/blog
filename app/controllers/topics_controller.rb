@@ -1,5 +1,7 @@
 class TopicsController < ApplicationController
 
+  before_action :signed_in_user, except: [:index, :show]
+
   def show
     @topic = Topic.find(params[:id])
     @posts = Post.where(topic: @topic)

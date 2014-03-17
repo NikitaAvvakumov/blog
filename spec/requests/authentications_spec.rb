@@ -83,6 +83,7 @@ describe "Authentications" do
       end
 
 =begin
+      # Uncomment if implementing user authorization
       describe 'as wrong user' do
         let(:user) { FactoryGirl.create(:user) }
         let(:wrong_user) { FactoryGirl.create(:user, name: 'Wrong User', email: 'wrong@example.com') }
@@ -104,30 +105,30 @@ describe "Authentications" do
 
     describe 'in the Posts controller' do
       let(:user) { FactoryGirl.create(:user) }
-      let(:post) { FactoryGirl.create(:post, user: user) }
+      let(:test_post) { FactoryGirl.create(:post, user: user) }
 
       describe 'attempting to access the new post path without signing in' do
         before { visit new_post_path }
         it { should have_title 'Sign in' }
       end
 
-      #describe 'attempting to issue a direct POST request while not signed in' do
-      #  before { post posts_path }
-      #  specify { expect(response).to redirect_to signin_path }
-      #end
+      describe 'attempting to issue a direct POST request while not signed in' do
+        before { post posts_path }
+        specify { expect(response).to redirect_to signin_path }
+      end
 
       describe 'attempting to access the post edit page while not signed in' do
-        before { visit edit_post_path(post) }
+        before { visit edit_post_path(test_post) }
         it { should have_title 'Sign in' }
       end
 
       describe 'attempting to issue a direct PATCH request while not signed in' do
-        before { patch post_path(post) }
+        before { patch post_path(test_post) }
         specify { expect(response).to redirect_to signin_path }
       end
 
       describe 'attempting to delete a post while not signed in' do
-        before { delete post_path(post) }
+        before { delete post_path(test_post) }
         specify { expect(response).to redirect_to signin_path }
       end
     end
@@ -140,6 +141,35 @@ describe "Authentications" do
 
       describe 'attempting to delete a post while not signed in' do
         before { delete post_comment_path(post, comment) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+    end
+
+    describe 'in the Topics controller' do
+      let(:topic) { Topic.create(name: 'Code') }
+
+      describe 'attempting to access the new topic path without signing in' do
+        before { visit new_topic_path }
+        it { should have_title 'Sign in' }
+      end
+
+      describe 'attempting to issue a direct POST request while not signed in' do
+        before { post topics_path }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+      describe 'attempting to access the topic edit page while not signed in' do
+        before { visit edit_topic_path(topic) }
+        it { should have_title 'Sign in' }
+      end
+
+      describe 'attempting to issue a direct PATCH request while not signed in' do
+        before { patch topic_path(topic) }
+        specify { expect(response).to redirect_to signin_path }
+      end
+
+      describe 'attempting to delete a topic while not signed in' do
+        before { delete topic_path(topic) }
         specify { expect(response).to redirect_to signin_path }
       end
     end
